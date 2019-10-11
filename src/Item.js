@@ -1,13 +1,33 @@
 import React, { Component } from 'react';
+import { DragSource } from 'react-dnd';
 
-class Preview extends Component {
+const itemSource = {
+  beginDrag(props) {
+    console.log('beginDrag')
+    return props.item;
+  },
+  endDrag(props, monitor, component) {
+    return props.handleDrop(props.item.id);
+  }
+}
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
+  }
+}
+
+class Item extends Component {
   render() {
-    return (
+  const { isDragging, connectDragSource, item } = this.props;
+    return connectDragSource(
       <div className="item">
-        {this.props.item.name}
+        <span>{item.name}</span>
       </div>
     );
   }
 }
 
-export default Preview;
+export default DragSource('item', itemSource, collect)(Item);
