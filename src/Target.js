@@ -3,7 +3,7 @@ import { DropTarget } from 'react-dnd';
 
 function collect(connect, monitor) {
   return {
-    connectDropTarget: connect.DropTarget(),
+    connectDropTarget: connect.dropTarget(),
     hovered: monitor.isOver(),
     item: monitor.getItem()
   }
@@ -12,7 +12,7 @@ function collect(connect, monitor) {
 class Target extends Component {
   render() {
     const { connectDropTarget, hovered, item } = this.props;
-    return (
+    return connectDropTarget(
       <div className="target">
         Target
       </div>
